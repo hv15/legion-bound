@@ -9,14 +9,16 @@ static const uint32_t SCREEN_HEIGHT = 720;
 // FPS control
 static const uint32_t SCREEN_TICKS_PER_FRAME = 1000; // 1 FPS
 
-// box colors
+// legion end-credit colors
 typedef struct color {
     uint32_t r;
     uint32_t g;
     uint32_t b;
 } color_t;
-static const color_t box1_color = {0, 153, 51}; // green
-static const color_t box2_color = {51, 102, 255}; // blue
+
+static const color_t bg   = {203, 203, 203}; // gray
+static const color_t box1 = {35, 110, 25}; // green
+static const color_t box2 = {131, 80, 136}; // purple
 
 static
 void add_rand_rect (SDL_Renderer * renderer, const color_t * color)
@@ -43,12 +45,12 @@ uint32_t draw (uint32_t interval, void * param)
     SDL_Renderer * renderer = param;
 
     // set background black
-    SDL_SetRenderDrawColor (renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor (renderer, bg.r, bg.g, bg.b, SDL_ALPHA_OPAQUE);
     SDL_RenderClear (renderer);
 
     // create two rectangles
-    add_rand_rect (renderer, &box1_color);
-    add_rand_rect (renderer, &box2_color);
+    add_rand_rect (renderer, &box1);
+    add_rand_rect (renderer, &box2);
 
     SDL_RenderPresent (renderer);
 
@@ -85,7 +87,7 @@ int main ()
         SDL_Quit ();
         return EXIT_FAILURE;
     }
-    
+
     /* Asynchronously update the window */
     SDL_TimerID timer = SDL_AddTimer (SCREEN_TICKS_PER_FRAME,
                                       draw,
